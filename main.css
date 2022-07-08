@@ -8,16 +8,16 @@
 	background: transparent;
     }
 
-i { padding: 0 5px; }
+i { padding: 0 10px; }
 
 body {
-  background-color: #1e2124;
-  color: #7289da;
+  background-color: #337ab7;
+  color: #FFFFFF;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .navbar {
-  background-color: #1e2124;
+  background-color: #337ab7;
   font-weight: bold;
   position: fixed;
   top: 0;
@@ -28,15 +28,14 @@ body {
 .navbar a {
   float: left;
   display: block;
-  color: #7289da;
+  color: #FFFFFF;
   text-align: center;
   padding: 20px 20px;
   text-decoration: none;
 }
 
 .navbar a:hover {
-  background: #7289da;
-  color: #1e2124;
+  text-decoration: dotted underline;
 }
 
 #mapid {

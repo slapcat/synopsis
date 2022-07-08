@@ -1,93 +1,55 @@
 <?php
-/**
- * start page for webaccess
- * redirect the user to the supported page type by the users webbrowser (js available or not)
- *
- * PHP version 5
- *
- * @category  PHP
- * @package   PSI
- * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
- * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
- * @version   SVN: $Id: index.php 687 2012-09-06 20:54:49Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
- */
-/**
- * define the application root path on the webserver
- * @var string
- */
-define('PSI_APP_ROOT', dirname(__FILE__));
 
-if (version_compare("5.1.3", PHP_VERSION, ">")) {
-    die("PHP 5.1.3 or greater is required!!!");
-}
-if (!extension_loaded("pcre")) {
-    die("phpSysInfo requires the pcre extension to php in order to work properly.");
-}
+$config = parse_ini_file("hosts.ini", true);
 
-require_once PSI_APP_ROOT.'/includes/autoloader.inc.php';
 
-// Load configuration
-require_once PSI_APP_ROOT.'/read_config.php';
 
-if (!defined('PSI_CONFIG_FILE') || !defined('PSI_DEBUG')) {
-    $tpl = new Template("/templates/html/error_config.html");
-    echo $tpl->fetch();
-    die();
-}
+?>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>synopsis</title>
+<link rel="stylesheet" href="main.css">
+<link rel="stylesheet" href="css/all.css">
+<link rel="stylesheet" href="leaflet/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+ <script src="leaflet/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+</head>
+<body>
+<div class="navbar">
+  <a href="index.php"><i class="fas fa-globe-americas"></i>  Network</a>
 
-// redirect to page with and without javascript
-$display = strtolower(isset($_GET['disp']) ? $_GET['disp'] : PSI_DEFAULT_DISPLAY_MODE);
-switch ($display) {
-case "static":
-    $webpage = new WebpageXSLT();
-    $webpage->run();
-    break;
-case "dynamic":
-    $webpage = new Webpage();
-    $webpage->run();
-    break;
-case "xml":
-    $webpage = new WebpageXML("complete");
-    $webpage->run();
-    break;
-case "json":
-    $webpage = new WebpageXML("complete");
-    $json = $webpage->getJsonString();
-    header('Cache-Control: no-cache, must-revalidate');
-    header('Content-Type: application/json');
-    echo $json;
-    break;
-case "bootstrap":
-/*
-    $tpl = new Template("/templates/html/index_bootstrap.html");
-    echo $tpl->fetch();
-*/
-    $webpage = new Webpage("bootstrap");
-    $webpage->run();
-    break;
-case "auto":
-    $tpl = new Template("/templates/html/index_all.html");
-    echo $tpl->fetch();
-    break;
-default:
-    $defaultdisplay = strtolower(PSI_DEFAULT_DISPLAY_MODE);
-    switch ($defaultdisplay) {
-    case "static":
-        $webpage = new WebpageXSLT();
-        $webpage->run();
-        break;
-    case "dynamic":
-        $webpage = new Webpage();
-        $webpage->run();
-        break;
-    case "bootstrap":
-        $webpage = new Webpage("bootstrap");
-        $webpage->run();
-        break;
-    default:
-        $tpl = new Template("/templates/html/index_all.html");
-        echo $tpl->fetch();
-    }
-}
+  <a href="host.php"><i class="fas fa-server"></i>  Host 1</a>
+  <a href="host.php"><i class="fas fa-server"></i>  Host 2</a>
+  <a href="host.php"><i class="fas fa-server"></i>  Host 3</a>
+</div>
+<div id="mapid"></div>
+<script>
+
+	var mymap = L.map('mapid').setView([39.100108495062166, -94.57162622176607], 5);
+
+	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoiam5hYmFzbnkiLCJhIjoiY2ttcGZuZzQ5MGJ1NjJ2bnNpNXBleHVjaSJ9.Px1mdjtmeW7XKFkE5mvclQ', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+			'Imagery &copy; <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'jnabasny/cl59m1m0b001z14rtuiz9roge',
+		tileSize: 512,
+		zoomOffset: -1
+	}).addTo(mymap);
+
+
+
+	L.marker([42.9406, -78.8473]).addTo(mymap)
+		.bindPopup("<b>Hello world!</b><br />I am a <a href=\"#link\">link</a>.");
+
+	L.marker([42.9406, -78.8474]).addTo(mymap)
+		.bindPopup("<b>Hello world!</b><br />I am a <a href=\"#link\">link</a>.");
+	L.marker([42.94061, -78.8475]).addTo(mymap)
+		.bindPopup("<b>Hello world!</b><br />I am a <a href=\"#link\">link</a>.");
+
+</script>
+</body>
+</html>

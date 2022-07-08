@@ -1,0 +1,24 @@
+[global]
+access_token = 
+id = 
+api_key = 
+
+[mail]
+geolocation = 
+endpoint = 
+peers = 
+
+[mail2]
+geolocation = 
+endpoint = 
+peers = 
+
+[yogi]
+geolocation = 
+endpoint =
+peers = 
+
+[topcat]
+geolocation = 
+endpoint =
+peers =

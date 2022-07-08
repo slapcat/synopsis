@@ -1,2 +1,3 @@
-phpsysinfo.ini
+phpsysinfo/phpsysinfo.ini
+hosts.ini
 composer.lock
